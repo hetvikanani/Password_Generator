@@ -38,16 +38,32 @@ const generateX = () => {
     if (lower.checked) arr.push(getLowercase());
     if (number.checked) arr.push(getNumber());
     if (symbol.checked) arr.push(getSymbol());
-    console.log(arr);
+    if (arr.length === 0) return "";
     return arr[Math.floor(Math.random() * arr.length)];
 };
 
 generateBtn.addEventListener("click", () => {
     let pwdLength = passwordLength.value;
     let password = "";
+
     for (let i = 0; i < pwdLength; i++) {
         const x = generateX();
         password += x;
     }
     passwordShow.innerText = password;
+});
+
+copyBtn.addEventListener("click", () => {
+    const textarea = document.createElement("textarea");
+    const password = passwordShow.innerText;
+
+    if (!password) {
+        return alert("Password not generated")
+    }
+    textarea.value = password;
+    document.body.append(textarea);
+    textarea.select();
+    document.execCommand("copy");
+    textarea.remove();
+    alert("Password Copied to clipboard");
 });
